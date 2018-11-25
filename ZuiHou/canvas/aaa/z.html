@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset='utf-8'/>
+	<title>08呼吸轮播图案例(完全)</title>
+	<style>
+		.container{
+			width: 560px; height: 300px; border: 1px solid black;
+			margin: 100px auto; position: relative;
+		}
+		.container .imgUL{ list-style: none; margin: 0; padding: 0; }
+		.container .imgUL li{  position: absolute; display: none;  }
+		.container .imgUL .active{ display: block; }
+		.container .btn{  
+			position: absolute; width: 50px; height: 100px;
+			text-align: center; line-height: 100px; background: rgba(0,0,0,.7);
+			color: #fff; font-size: 35px; top: 30%;
+		}
+		.container .nextBtn{ right:0; }
+		.container .pagination{ 
+			list-style: none; margin: 0; padding: 0;
+			position: absolute; bottom: 10px; left: 35%;
+		}
+		/*--------------------------------------------*/
+		.container .pagination li{ 
+			width: 20px; height: 20px; border-radius: 50%; display: inline-block;
+			background: lightgreen; text-align: center; line-height: 20px;
+		}
+		.container .pagination .active-page{ background: orange; }
+		.container .pagination li a{
+			text-decoration: none; color:#fff;
+		}
+	</style>
+</head>
+<body>
+
+<div class="container">
+	<ul class="imgUL">
+		<li class="active"><a href="#"><img src="img/5.jpg"></a></li>
+		<li><a href="#"><img src="img/1.jpg"></a></li>
+		<li><a href="#"><img src="img/2.jpg"></a></li>
+		<li><a href="#"><img src="img/3.jpg"></a></li>
+		<li><a href="#"><img src="img/4.jpg"></a></li>
+	</ul>
+	<div class="btn prevBtn"><</div>
+	<div class="btn nextBtn">></div>
+	<ul class="pagination">
+		<li class="active-page"><a href="#">0</a></li>
+		<li><a href="#">1</a></li>
+		<li><a href="#">2</a></li>
+		<li><a href="#">3</a></li>
+		<li><a href="#">4</a></li>
+	</ul>
+</div>
+
+<script src="jquery-1.12.3.min.js"></script>
+<script>
+	var $lis = $('.container .imgUL li');
+	var $pageLis = $('.container .pagination li');
+	var $btns = $('.btn');
+	var $index = 0;
+
+	$btns.eq(1).click(function (){
+		$lis.eq($index).fadeOut();
+		//与图片序号对应的那个锚点，样式消失
+		$pageLis.eq($index).attr('class', '');
+		$index++;
+		console.log($index)
+		if($index == 5){
+			$index = 0;
+		}
+		$lis.eq($index).fadeIn();
+		//与图片序号对应的那个锚点，添加样式
+		$pageLis.eq($index).attr('class', 'active-page');
+	});
+	$btns.eq(0).click(function (){
+		$lis.eq($index).fadeOut();
+		//与图片序号对应的那个锚点，样式消失
+		$pageLis.eq($index).attr('class', '');
+		$index--;
+		console.log($index)
+		if($index == -1){
+			$index = 4;
+		}
+		$lis.eq($index).fadeIn();
+		//与图片序号对应的那个锚点，添加样式
+		$pageLis.eq($index).attr('class', 'active-page');
+	});
+
+	//批量对锚点添加点击事件
+	$pageLis.click(function (){
+		$lis.eq($index).fadeOut();
+		//与图片序号对应的那个锚点，样式消失
+		$pageLis.eq($index).attr('class', '');
+		
+		//获取点击的index
+		//.index()用于获取当前jq对象在其兄弟中的序号排名，从0开始
+		$index = $(this).index();
+
+		$lis.eq($index).fadeIn();
+		//与图片序号对应的那个锚点，添加样式
+		$pageLis.eq($index).attr('class', 'active-page');
+	});
+
+</script>
+</body>
+</html>

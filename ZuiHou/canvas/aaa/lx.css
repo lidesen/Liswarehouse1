@@ -1,0 +1,84 @@
+*{
+	margin:0  ;
+	padding:0 ;
+}
+#box{
+	margin:0 auto ;
+	width: 1000px;
+	height: 500px;
+	border:1px solid red ;
+	overflow: hidden;
+}
+.l{
+	width: 500px;
+	height:500px;
+	background-color: #E44343;
+float: left;
+}
+.l:hover{
+	background-color: #2118B3;
+}
+.r{width: 500px;
+	height: 500px;
+	background-color: #5D27D8;
+	float: left;
+}
+.t{
+	width: 500px;
+	height: 250px;
+	background-color: #00FC99;
+}
+.t:hover{
+	background-color: #FFFC00;
+}
+.b{
+	overflow: hidden;
+}
+.b-l{
+	width: 250px;
+	height: 250px;
+	background-color: #EFD7D7;
+	float: left;
+}
+.b-l:hover{
+	background-color: #000;
+}
+.b-r{
+	width: 250px;
+	height: 250px;
+	background-color: #FF0000;
+	float: left;
+}
+.b-r-l{
+	width: 125px;
+	height: 250px;
+	background-color: #00FFFC;
+	float: left;
+}
+.b-r-l:hover{
+background-color: 	#FC006B;
+}
+.b-r-r{
+	width: 125px;
+	height: 250px;
+	background-color: #0005FF;
+	float: left;
+}
+.r-t{
+width: 100%;
+height: 50%;
+background-color: #FCFF00;
+float: left;
+}
+.r-t:hover{
+	background-color: #AF00FF;
+}
+.r-b{
+	width: 100%;
+	height: 50%;
+	background-color: #FF0000;
+	float: left;
+}
+.r-b:hover{
+	background-color: #AAFF00;
+}

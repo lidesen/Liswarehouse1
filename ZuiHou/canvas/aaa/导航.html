@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>导航</title>
+</head>
+<body>
+	<ul class="ul">
+		
+	</ul>
+	<script type="text/javascript" src="jquery-1.12.3.min.js"></script>
+<script type="text/javascript">
+
+	$ul = $('.ul');
+	var yangshi = {
+		'list-style':'none'
+	}
+	$ul.css(yangshi);
+
+	for (var i = 0; i <5; i++) {
+	$("<li style='display:inline-block;margin:5px; background-color:blue'>导航</li>").appendTo($ul)
+
+	}
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	// 创建ul
+	var ul = document.createElement('ul');
+
+	// 设置ul属性
+	ul.style.cssText = 'list-style:none;margin:5px;'
+	// 吧ul添加到页面
+	document.body.appendChild(ul)
+	// 设置li
+	var liArr = ['这是','一个','导航栏']
+	
+	for(var i=0;i<liArr.length;i++){
+		var li = document.createElement('li');
+	li.style.cssText= 'display:inline-block;width:200px;height:50px;background-color:red;text-align:center;line-height:50px;margin:5px;';
+	li.innerHTML= liArr[i];
+	ul.appendChild(li);
+	}
+	// 设置li属性
+	// 吧li添加到ul哩
+	
+
+
+
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>手风琴</title>
+	<style type="text/css" media="screen">
+		.ul{
+			width: 500px;
+			list-style: none;
+			margin: 10px;
+			border: 1px solid #000;
+
+		}
+		.ul li h2{
+			margin: 0;
+			background-color: #ccc;
+			border: 5px solid #000;
+		}
+		.ul div{
+			display: none;
+		}
+		span{
+			float: right;
+		}
+	</style>
+</head>
+<body>
+<ul class="ul">
+	<li>
+		<h2>这是标题1<span>></span></h2>
+		
+		<div>
+			这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字
+		</div>
+	</li>
+	<li>
+		<h2>这是标题2<span>></span></h2>
+		
+		<div>
+				这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字
+			</div>
+	</li>
+	<li>
+		<h2>这是标题3<span>></span></h2>
+		
+		<div>	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字	这是文字
+		</div>
+	</li>
+</ul>
+</body>
+<script type="text/javascript" src="jquery-1.12.3.min.js">
+</script>
+<script type="text/javascript">
+	$h2 = $('h2');
+	$h2.click(function(){
+		$(this).parent().siblings().find('div').slideUp;
+		$(this).parent().siblings().find('span').html('>');
+		if ($(this).siblings().is(':visible')){
+			$(this).siblings().slideUp();
+			$(this).find('span').html('>');
+		}else {
+			$(this).siblings().slideDown();
+			$(this).find('span').html('v');
+		}
+	});
+</script>
+</html>

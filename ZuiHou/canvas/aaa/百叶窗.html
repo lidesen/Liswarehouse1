@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>百叶窗</title>
+	<style type="text/css">
+		.cont{
+			width: 610px;
+			height: 300px;
+			border: 1px solid #000;
+			margin: 50px auto; 
+			position: relative;
+			overflow: hidden;
+		}
+		.cont ul{
+			list-style: none;
+		}
+		.cont li{
+			position: absolute;
+		}
+		.cover{
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0,0,0,.3)
+		}
+		.li1{
+			left: 0px;
+		}
+		.li2{
+			left: 80px;
+		}
+		.li3{
+			left: 160px;
+		}
+		.li4{
+			left: 240px;
+		}
+	</style>
+</head>
+<body>
+	<div class="cont">
+		<ul>
+			<li class="li1">
+				<a href="#">
+					<div class="cover"></div>
+					<img src="img/1.jpg">
+				</a>
+			</li>
+			<li class="li2">
+				<a href="#">
+					<div class="cover"></div>
+					<img src="img/2.jpg">
+				</a>
+			</li>
+			<li class="li3">
+				<a href="#">
+					<div class="cover"></div>
+					<img src="img/3.jpg">
+				</a>
+			</li>
+			<li class="li4">
+				<a href="#">
+					<div class="cover"></div>
+					<img src="img/4.jpg">
+				</a>
+			</li>
+		</ul>
+	</div>
+</body>
+<script type="text/javascript" src="jquery-1.12.3.min.js"></script>
+<script type="text/javascript">
+	$lis = $('.cont ul li')
+	$lis.mouseenter(function(){
+		$(this).find('.cover').stop(true).fadeOut();
+	}).mouseleave(function(){
+		$(this).find('.cover').stop(true).fadeIn();
+		$lis.stop(true);
+		$('.li1').animate({'left':'0px'},500);
+		$('.li2').animate({'left':'80px'},500);
+		$('.li3').animate({'left':'160px'},500);
+		$('.li4').animate({'left':'240px'},500);
+
+	})
+	$lis.eq(0).mouseenter(function (){
+		$lis.stop(true);
+		$('.li1').animate({'left':'0px'},500);
+		$('.li2').animate({'left':'500px'},500);
+		$('.li3').animate({'left':'560px'},500);
+		$('.li4').animate({'left':'620px'},500);
+	});
+	$lis.eq(1).mouseenter(function (){
+		$lis.stop(true);
+		$('.li1').animate({'left':'0px'},500);
+		$('.li2').animate({'left':'40px'},500);
+		$('.li3').animate({'left':'520px'},500);
+		$('.li4').animate({'left':'660px'},500);
+	});
+	$lis.eq(2).mouseenter(function (){
+		$lis.stop(true);
+		$('.li1').animate({'left':'0px'},500);
+		$('.li2').animate({'left':'40px'},500);
+		$('.li3').animate({'left':'80px'},500);
+		$('.li4').animate({'left':'540px'},500);
+	});
+	$lis.eq(3).mouseenter(function (){
+		$lis.stop(true);
+		$('.li1').animate({'left':'0px'},500);
+		$('.li2').animate({'left':'40px'},500);
+		$('.li3').animate({'left':'80px'},500);
+		$('.li4').animate({'left':'120px'},500);
+	});
+
+
+
+</script>
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<style>
+		canvas{ border: 1px solid black; }
+	</style>
+</head>
+<body>
+<canvas width='320' height='500'></canvas>
+</body><script type="text/javascript" src="underscore.js"></script>
+<script type="text/javascript">
+	(function(){
+		 var Block = window.Block = function(row,col,c){
+		 	this.row = row;
+		 	this.col = col;
+		 	this.c = c;
+		 	this.x = this.col*40;
+		 	this.y = 180+this.row*40;
+		 	this.needBoomb = false;
+			this.boombStep = 0;
+			this.tempFrame = 0;
+			this.beginAnimate = false;
+		 };
+		 Block.prototype.isBoomb =function(){
+		 	this.needBoomb = true;
+		 };
+
+		 Block.prototype.updata = function(){
+		 	this.tempFrame++;
+		 	if (this.beginAnimate = true&& this.tempFrame<=this.endFrame) {
+		 		this.x+=this.dx;
+		 		this.y+=this.dy;
+		 	};
+
+		 	if (this.needBoomb == true&&this.tempFrame%2==0) {
+		 		this.boombStep++;
+		 		if (this.boombStep == 10) {
+		 			this.needHidden = true;
+		 		}
+		 	};
+		 };
+
+		 Block.prototype.render = function(){
+		 	if(this.needHidden == true){
+				return;
+			}
+			
+			if(this.needBoomb == true){
+				var qpx = this.boombStep % 5 * 192;
+				var qpy = this.boombStep<5? 0 : 192;
+				game.bi.drawImage(game.resourceObj['baozha'],qpx,qpy,192,192,this.x,this.y,40,40)
+			}else{
+				var qpx = this.c % 3 * 79;
+				var qpy = (this.c/3)>=1? 79 : 0;
+				game.bi.drawImage(game.resourceObj['icons'],qpx,qpy,79,79,this.x,this.y,40,40);
+			}
+		};
+		Block.prototype.moveTo = function(row,col,frame){
+			frame = frame ||5;
+			this.dy = (row-this.row)*40/frame;
+			this.dx = (col-this.col)*40/frame;
+			this.beginAnimate = true;
+			this.endFrame = this.tempFrame + frame;
+			this.row = row;
+			this.col = col;
+		}
+	}());
+	(function(){
+		// 创建一个对象类
+		var Map = window.Map = function(){
+			// 包含类所有的砖块对象的矩阵
+			this.juzhen =  [
+				[_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5)],
+				[_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5)],
+				[_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5)],
+				[_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5)],
+				[_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5)],
+				[_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5)],
+				[_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5)],
+				[_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5),_.random(0,5)]
+			];
+			this.blocks = [[],[],[],[],[],[],[],[]];
+			this.downRows = [[],[],[],[],[],[],[],[]];
+			this.Boom = [[],[],[],[],[],[],[],[]];
+			this.createJuZhen();
+		};
+		Map.prototype.createJuZhen = function(){
+			for(var i=0;i<8;i++){
+				for(var j=0;j<8;j++){
+				this.blocks[i][j] = new Block(i,j,this.juzhen[i][j]);
+			}}
+		}
+		// 原型
+		Map.prototype.render = function(){
+			// 所有的砖块的绘制
+			// 循环行
+			for(var i = 0;i < 8 ; i++){
+				// 循环列
+				for(j=0;j<8;j++){
+					// 循环出来每一个都是一个单体
+					this.blocks[i][j].updata();
+					this.blocks[i][j].render();
+				}
+			};
+			Map.prototype.check = function(){
+				// 判断列有没有要消除的
+				var result = false;
+				for( var row = 0;row<8;row++){
+					// 参与判断的所谓的第一个
+					var i = 0;
+					// 参与判断的所谓的第二个
+					var j = 1;
+					// 设置边界值
+					while (i<8&&j<8) {
+						// 判断第i个与第j个是否相同
+						if (this.juzhen[row][i]== this.juzhen[row][j]) {
+							j++;
+						}else {
+							// 判断不相同的情况下j-i的数量是不是三个或者三个一下
+							if (j-i>=3) {
+								// 在声明一个变量 让他来循环i与j之间的
+								for(var k = i;k<j;k++){
+									this.Boom[row][k] = 'X';
+									this.blocks[row][k].isBoomb();
+									result = true;
+								}
+							}
+							// 让第一个等于第二个
+							i = j;
+							// 第二个加一再次执行
+							j++;
+						}
+					}
+					// 就是第八个下标为7但是条件是小于8所以要再次判断如果最后一个也相同的时候，需要j=8来再次判断一次
+					if (j == 8) {
+						if (j-i>=3) {
+							for(var k = i;k<j;k++){
+									this.Boom[row][k] = 'X';
+									this.blocks[row][k].isBoomb();
+									result= true;
+								}
+						}
+					}
+				};
+				for(var col = 0; col<8;col++){
+					var i = 0;
+					var j = 1;
+					while (i<8&&j<8) {
+						if (this.juzhen[i][col]==this.juzhen[j][col]) {
+							j++;
+						}else {
+							if (j-i>=3) {
+								for(var k = i ;k<j;k++){
+									this.Boom[k][col] = 'X';
+									this.blocks[k][col].isBoomb();
+								result = true;
+								}
+							}
+							i=j;
+							j++
+						}
+					}
+					if (j == 8) {
+						if (j-i>=3) {
+							for(var k = i;k<j;k++){
+								this.Boom[k][col] = 'X';
+								this.blocks[k][col].isBoomb();
+								result = true;
+							}
+						}
+					}
+
+				}return result;
+
+			};
+			Map.prototype.dropDown = function(){
+				for(var row = 0;row<7;row++){
+					for(var col = 0;col<8;col++){
+						if (this.Boom[row][col]!='X') {
+							var sum = 0;
+
+							for (var i = row+1; i<8; i++) {
+								if (this.Boom[i][col] =='X') {
+									sum++;
+								}
+							}
+							this.downRows[row][col] = sum;
+							this.blocks[row][col].moveTo(row+sum,col,5)
+						}
+					}
+				}
+				for(var row = 0;row <8;row++){
+
+					for(var col = 0;col<8;col++){
+						this.juzhen[row][col] = '*';
+					}
+				}
+
+				Map.prototype.supplement = function(){
+					this.createJuZhen();
+					for(var row = 0;row<8;row++){
+						if (this.juzhen[row][col] == '*') {
+							var tempColor = _.random(0,5);
+							this.juzhen[row][col] = tempColor;
+							this,blocks[row][col] = new Block(-9,col,tempColor);
+							this.blocks[row][col].moveTo(row,col,11);
+						}
+						this.Boom[row][col] = undefined;
+						this.downRows[row][col] = undefined;
+					}
+				}
+			}
+		}
+	}());
+	// 游戏类
+	(function(){
+		var Game = window.Game = function(){
+			this.canvas = window.document.querySelector('canvas');
+			this.bi = this.canvas.getContext('2d');
+			this.gameFrame = 0;
+			this.STATE = '爆破检查';
+
+			this.resource = {
+				baozha:'baozha.png',
+				bg:'bg.png',
+				icons:'icons.png'
+			};
+			this.resourceObj = {};
+			this.resourceLength = _.keys(this.resource).length;
+			this.alreadyLength = 0;
+			for(var key in this.resource){
+				this.resourceObj[key] = new Image();
+				this.resourceObj[key].src = this.resource[key];
+				var that = this;
+				this.resourceObj[key].onload = function(){
+					that.alreadyLength++;
+					that.bi.clearRect(0,0,that.canvas.width,that.canvas.height);
+					that.bi.fillText('正在加载资源：'+that.alreadyLength+'/'+that.resourceLength,20,20);
+					if (that.alreadyLength == that.resourceLength){
+					 	that.start();
+					 }
+				}
+			}
+		};
+		Game.prototype.start = function(){
+			this.map = new Map();
+			// 保留this
+			var that = this;
+			this.timer = setInterval(function(){
+			that.mainLoop();
+			},200);
+		}
+		Game.prototype.mainLoop = function(){
+			this.bi.clearRect(0,0,this.canvas.width,this.canvas.height);
+			this.gameFrame++;
+			this.bi.drawImage(this.resourceObj['bg'],0,0,this.canvas.width,this.canvas.height);
+			this.bi.fillText(this.gameFrame,10,20);
+			this.bi.fillText(this.STATE,50,20);
+			this.map.render();
+
+			if (this.STATE == '爆破检查') {
+				if (this.map.check()) {
+					this.startBoomFrame = this.gameFrame;
+					console.log('爆破检查结束。。进入爆破动画状态')
+				}else{
+					this.STATE = '静稳状态';
+					console.log('爆破检查结束进入静稳状态')
+				}
+
+
+			}else if (this.STATE == '爆破动画' && this.gameFrame> this.startBoomFrame + 20) {
+				this.STATE = '下落动画';
+				this.map.dropDown();
+				this.startDropDownFrame = this.gameFrame;
+				console.log('爆破动画结束  进入下落动画状态')
+			}else if (this.STATE == '下落动画' &&this.gameFrame>this.startDropDownFrame + 5) {
+				this.STATE = '添加新的';
+				this.startSuppleFrame = this.gameFrame;
+				console.log('下落动画状态结束， 进入添加新的动画状态')
+			}else if (this.STATE == '添加新的' &&this.gameFrame>this.startSuppleFrame +11) {
+				this.STATE = '爆破检查';
+				console.log('添加新的动画状态结束。。进入爆破检查状态')
+			}else if (this.STATE == '静稳状态') {
+				console.log('当前系统处于静穏状态')
+			}
+		}
+
+	}());
+	var game = new Game();
+
+
+/*
+	判断有没有要消除的
+	
+*/
+</script>
+</html>

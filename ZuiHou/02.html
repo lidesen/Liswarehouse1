@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+	<button class="but">这是一个按钮</button>
+<script type="text/javascript">
+	// function fun1(num){
+	// 	var num = 10;
+	// 	return function(){
+	// 			console.log(num*num)
+	// 	}
+	// }
+	// fun1()();
+	// // ---------------------
+	// (function(){
+	// 	alert('这算不算匿名函数调用')
+	// })()
+	// // -----------------
+	// var aa = function(){
+	// 	return '这是匿名函数吗'
+	// }
+	// console.log(aa())
+ 	var but = document.querySelector('.but')
+ 		var but1 = document.querySelector('.but1')
+ 	but.onclick =function(){
+ 		var aa = function(){
+		return '这是匿名函数吗'
+	}
+	console.log(aa())
+ 	}
+</script>
+</body>
+</html>
